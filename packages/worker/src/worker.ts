@@ -72,7 +72,7 @@ type AiModelKey = keyof typeof AI_MODELS;
 // DeepSeek-R1 API configuration
 const DEEPSEEK_API = {
         ENDPOINT: 'https://one.lucasmac.asia/v1/chat/completions',
-        API_KEY: 'sk-jweX4',
+        API_KEY: 'sk-jweX4RYAJwP1JuYX8426FfCdD9Fa4dA8AcE260CcCd074217',
         MAX_CONTEXT: 168000,
         MAX_TOKENS: 32000,
 };
