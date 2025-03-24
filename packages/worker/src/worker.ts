@@ -330,7 +330,7 @@ export default {
         async fetch(request: Request, env: Environment, ctx: ExecutionContext): Promise<Response> {
                 try {
                         // 创建单个bot实例
-                        const bot = new TelegramBot(env.SECRET_TELEGRAM_API_TOKEN);
+                        const bot = new TelegramBot(env.SECRET_TELEGRAM_API_TOKEN, { defaultCommand: 'message' });
                         
                         // 注册所有命令处理程序
                         bot.on('document', async (bot: TelegramExecutionContext) => {
@@ -511,14 +511,38 @@ export default {
                                                                 throw new Error(`Image API error: ${response.status} ${response.statusText}`);
                                                         }
                                                         
-                                                        const data = await response.json() as ImageApiResponse;
-                                                        console.log('Image API response:', data);
+                                                        // 尝试解析响应内容
+                                                        let imageUrl;
+                                                        try {
+                                                                // 首先尝试解析为JSON
+                                                                const data = await response.json() as ImageApiResponse;
+                                                                console.log('Image API response (JSON):', data);
+                                                                
+                                                                if (data && data.imageUrl) {
+                                                                        imageUrl = data.imageUrl;
+                                                                }
+                                                        } catch (jsonError) {
+                                                                // 如果不是JSON，尝试作为纯文本处理
+                                                                const textUrl = await response.text();
+                                                                console.log('Image API response (text):', textUrl);
+                                                                
+                                                                // 检查是否是有效的URL
+                                                                if (textUrl && textUrl.trim().startsWith('http')) {
+                                                                        imageUrl = textUrl.trim();
+                                                                }
+                                                        }
                                                         
-                                                        if (data && data.imageUrl) {
+                                                        if (imageUrl) {
                                                                 // 直接发送图片URL给用户
-                                                                await bot.replyPhoto(data.imageUrl);
+                                                                try {
+                                                                        await bot.replyPhoto(imageUrl);
+                                                                } catch (photoError) {
+                                                                        console.error('Error sending photo:', photoError);
+                                                                        // 如果发送图片失败，发送链接
+                                                                        await bot.reply(`图片生成成功，但无法直接显示。您可以通过以下链接查看：${imageUrl}`, 'HTML');
+                                                                }
                                                         } else {
-                                                                throw new Error('No image URL in response');
+                                                                throw new Error('No valid image URL in response');
                                                         }
                                                 } catch (error) {
                                                         console.error('Error using new image API:', error);
