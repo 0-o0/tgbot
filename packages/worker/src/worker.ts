@@ -511,35 +511,19 @@ export default {
                                                                 throw new Error(`Image API error: ${response.status} ${response.statusText}`);
                                                         }
                                                         
-                                                        // 尝试解析响应内容
-                                                        let imageUrl;
-                                                        try {
-                                                                // 首先尝试解析为JSON
-                                                                const data = await response.json() as ImageApiResponse;
-                                                                console.log('Image API response (JSON):', data);
-                                                                
-                                                                if (data && data.imageUrl) {
-                                                                        imageUrl = data.imageUrl;
-                                                                }
-                                                        } catch (jsonError) {
-                                                                // 如果不是JSON，尝试作为纯文本处理
-                                                                const textUrl = await response.text();
-                                                                console.log('Image API response (text):', textUrl);
-                                                                
-                                                                // 检查是否是有效的URL
-                                                                if (textUrl && textUrl.trim().startsWith('http')) {
-                                                                        imageUrl = textUrl.trim();
-                                                                }
-                                                        }
+                                                        // 直接获取纯文本URL响应
+                                                        const imageUrl = await response.text();
+                                                        console.log('Image API response (text URL):', imageUrl);
                                                         
-                                                        if (imageUrl) {
+                                                        // 检查是否是有效的URL
+                                                        if (imageUrl && imageUrl.trim().startsWith('http')) {
                                                                 // 直接发送图片URL给用户
                                                                 try {
-                                                                        await bot.replyPhoto(imageUrl);
+                                                                        await bot.replyPhoto(imageUrl.trim());
                                                                 } catch (photoError) {
                                                                         console.error('Error sending photo:', photoError);
                                                                         // 如果发送图片失败，发送链接
-                                                                        await bot.reply(`图片生成成功，但无法直接显示。您可以通过以下链接查看：${imageUrl}`, 'HTML');
+                                                                        await bot.reply(`图片生成成功，但无法直接显示。图片链接：${imageUrl.trim()}`, 'HTML');
                                                                 }
                                                         } else {
                                                                 throw new Error('No valid image URL in response');
