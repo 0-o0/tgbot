@@ -1,0 +1,46 @@
+{
+	"name": "@0-o0/tgbot",
+	"version": "9.1.1",
+	"description": "serverless telegram bot on cf workers",
+	"main": "./dist/main.js",
+	"module": "./dist/main.js",
+	"types": "./dist/types.d.ts",
+	"files": [
+		"dist",
+		"LICENSE",
+		"LICENSE_MIT",
+		"README.md"
+	],
+	"keywords": [
+		"cloudflare",
+		"telegram",
+		"worker",
+		"webhook"
+	],
+	"type": "module",
+	"private": false,
+	"scripts": {
+		"build": "tsc --project tsconfig.json",
+		"lint": "eslint src",
+		"test": "vitest --config vitest.config.js"
+	},
+	"author": "0-o0",
+	"license": "Apache-2.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/0-o0/tgbot.git"
+	},
+	"devDependencies": {
+		"@cloudflare/workers-types": "^4.20250313.0",
+		"@eslint/js": "^9.22.0",
+		"@typescript-eslint/eslint-plugin": "^8.26.1",
+		"@typescript-eslint/parser": "^8.26.1",
+		"eslint": "^9.22.0",
+		"eslint-config-prettier": "^10.1.1",
+		"globals": "^16.0.0",
+		"prettier": "^3.5.3",
+		"typescript": "^5.8.2",
+		"typescript-eslint": "^8.26.1",
+		"vitest": "^3.0.8"
+	}
+}

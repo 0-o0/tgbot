@@ -1,0 +1,25 @@
+{
+	"name": "root",
+	"private": true,
+	"author": "0-o0",
+	"scripts": {
+		"build": "npm run build --workspaces",
+		"build:worker": "npm run build --workspace=packages/worker",
+		"test": "npm run test --workspaces",
+		"test:worker": "npm run test --workspace=packages/worker",
+		"test:main": "npm run test --workspace=packages/main",
+		"lint": "npm run lint --workspaces"
+	},
+	"workspaces": [
+		"packages/main",
+		"packages/worker"
+	],
+	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "^8.26.0",
+		"typedoc": "^0.27.9"
+	},
+	"dependencies": {
+		"marked": "^15.0.7"
+	},
+	"version": ""
+}
