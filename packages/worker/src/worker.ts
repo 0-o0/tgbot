@@ -619,7 +619,7 @@ export default {
                         });
                         
                         // 处理webhook请求
-                        return await bot.handleUpdate(request);
+                        return await bot.handleUpdate(request, ctx);
                         
                 } catch (error) {
                         console.error('Error in fetch handler:', error);
