@@ -368,7 +368,7 @@ export default {
                                 try {
                                         if (bot.update.message?.text) {
                                                 await bot.reply(
-                                                        'Send me a message to talk to DeepSeek-R1. Use /clear to wipe history. Use /p to generate a photo. Use /code to generate code. Use /dd to disable thinking process display. Use /cc to enable thinking process display.',
+                                                        '初次见面，请多多关照👻',
                                                         'HTML'
                                                 );
                                         }
@@ -439,8 +439,8 @@ export default {
                                                 // 使用DeepSeek Coder模型生成代码
                                                 const response = await env.AI.run(AI_MODELS.CODER, {
                                                         messages: [
-                                                                { role: 'system', content: 'You are a helpful coding assistant. Only provide code examples without explanations. Just return the code block directly.' },
-                                                                { role: 'user', content: prompt }
+                                                            { role: 'system', content: 'You are a coding assistant that MUST ONLY return code. No explanations, no comments outside the code, no introductions, no conclusions. The response should ONLY contain a code block and nothing else. Do not add any text before or after the code block.' },
+                                                            { role: 'user', content: 'DO NOT add any explanations. ONLY provide code. ' + prompt }
                                                         ],
                                                 }) as AiTextGenerationOutput;
                                                 
